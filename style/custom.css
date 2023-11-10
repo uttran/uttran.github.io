@@ -34,3 +34,6 @@
   left: calc(100% - 1.2em);
   transform: none;
 }
+.dev-demo {
+  position: fixed;
+}
