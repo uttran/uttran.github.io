@@ -25,7 +25,7 @@ suspend fun fetchSource(): List<Thirukkural> {
     val groupsData = window.fetch(groupsUrl).await().text().await()
 
     val thirukkurals = parseSource(sourceData, groupsData)
-    println("version: 2023-11-09.1")
+    println("version: 2023-11-09.2")
     println("Source: $sourceUrl loaded")
     return thirukkurals
 }
