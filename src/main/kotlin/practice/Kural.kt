@@ -1,3 +1,5 @@
+package practice
+
 import react.RBuilder
 import react.RComponent
 import react.RProps

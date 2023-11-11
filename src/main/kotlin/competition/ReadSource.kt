@@ -1,3 +1,5 @@
+package competition
+
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -30,8 +32,7 @@ fun parseSource(sourceTxt: String, groupsData: String): List<Thirukkural> {
             words = getWords("${it.line1} ${it.line2}"),
             group = groupsMap.getOrElse(it.number) { setOf() }
         )
-    }
-        .toList()
+    }.toList()
 }
 
 fun getWords(line: String): List<String> {

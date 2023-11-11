@@ -1,3 +1,5 @@
+package practice
+
 import kotlinx.css.LinearDimension
 import kotlinx.css.rem
 import react.RBuilder

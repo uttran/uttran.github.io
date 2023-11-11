@@ -13,46 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package competition.scoreCard
 
-import kotlinx.css.LinearDimension
-import kotlinx.css.fontSize
-import kotlinx.css.rem
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
-import react.ReactElement
+import react.*
 import styled.css
 import styled.styledDiv
+import styled.styledP
 
-external interface QuestionMultilineProps: RProps {
-    var question: KuralOnly
+external interface ScoreCardEntryProps: RProps {
+    var keyEntry: String
+    var valueEntry: String
 }
 
-class QuestionMultiline : RComponent<QuestionMultilineProps, RState>() {
+class ScoreCardEntry : RComponent<ScoreCardEntryProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                classes = mutableListOf("card bg-warning m-2 text-center")
+                classes = mutableListOf("d-flex justify-content-between align-items-center")
             }
-            styledDiv {
+            styledP {
                 css {
-                    classes = mutableListOf("card-header")
-                    fontSize = 1.1.rem
+                    classes = mutableListOf("card-text mb-0")
                 }
-                styledDiv {
-                    +props.question.firstLine
+                +"${props.keyEntry}: "
+            }
+            styledP {
+                css {
+                    classes = mutableListOf("card-text")
                 }
-                styledDiv {
-                    +props.question.secondLine
-                }
+                +props.valueEntry
             }
         }
     }
 }
 
-fun RBuilder.questionMultiline(handler: QuestionMultilineProps.() -> Unit): ReactElement {
-    return child(QuestionMultiline::class) {
+fun RBuilder.scoreCardEntry(handler: ScoreCardEntryProps.() -> Unit): ReactElement {
+    return child(ScoreCardEntry::class) {
         this.attrs(handler)
     }
 }

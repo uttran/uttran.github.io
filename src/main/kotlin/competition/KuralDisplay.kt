@@ -1,23 +1,23 @@
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
-import react.ReactElement
+package competition
+
+import react.*
 import styled.css
 import styled.styledDiv
 import styled.styledP
 import styled.styledSmall
 
-external interface KuralDisplayProps: RProps {
+external interface KuralDisplayProps : RProps {
     var selectedThirukkural: Thirukkural
-    var selectedKuralMeaning: Set<KuralMeaning>
+    var showMeaning: Boolean
+    var style: String?
 }
 
 class KuralDisplay : RComponent<KuralDisplayProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
+            val targetStyle = props.style ?: "text-white bg-success"
             css {
-                classes = mutableListOf("card text-white bg-success m-2")
+                classes = mutableListOf("card $targetStyle m-2")
             }
             styledDiv {
                 css {
@@ -55,19 +55,22 @@ class KuralDisplay : RComponent<KuralDisplayProps, RState>() {
                     +props.selectedThirukkural.kural.secondLine
                 }
             }
-            styledDiv {
-                css {
-                    classes = mutableListOf("card-footer")
-                }
-                props.selectedKuralMeaning.forEach {
-                    styledP {
-                        css {
-                            classes = mutableListOf("card-text")
+            if (props.showMeaning) {
+                styledDiv {
+                    css {
+                        classes = mutableListOf("card-footer pb-0")
+                    }
+                    KuralMeaning.values().forEach {
+                        styledP {
+                            css {
+                                classes = mutableListOf("card-text m-0")
+                            }
+                            +it.getMeaning(props.selectedThirukkural)
                         }
-                        +it.getMeaning(props.selectedThirukkural)
                         styledDiv {
                             css {
-                                classes = mutableListOf("font-italic d-flex flex-column text-right")
+                                classes =
+                                    mutableListOf("font-italic d-flex flex-column text-right mb-3")
                             }
                             styledSmall {
                                 +"உரை : ${it.tamil}"

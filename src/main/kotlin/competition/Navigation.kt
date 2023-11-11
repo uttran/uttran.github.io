@@ -1,24 +1,35 @@
-import kotlinx.css.LinearDimension
-import kotlinx.css.width
+package competition
+
+import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
+import kotlinx.html.role
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
 import react.ReactElement
-import styled.css
-import styled.styledButton
-import styled.styledImg
-import styled.styledSpan
+import styled.*
+
+object ComponentStyles: StyleSheet("ComponentStyles", isStatic = true) {
+    val rightRounded by css {
+        borderTopRightRadius = 50.rem
+        borderBottomRightRadius = 50.rem
+    }
+    val leftRounded by css {
+        borderTopLeftRadius = 50.rem
+        borderBottomLeftRadius = 50.rem
+    }
+}
 
 external interface NavigationProps: RProps {
     var questionState: QuestionState
     var smallBtnWidth: LinearDimension
     var mediumBtnWidth: LinearDimension
     var largeBtnWidth: LinearDimension
-    var onShowAnswerClick: () -> Unit
     var onTimerClick: () -> Unit
     var onPreviousClick: () -> Unit
+    var onWrongClick: () -> Unit
+    var onRightClick: () -> Unit
     var onNextClick: () -> Unit
 }
 
@@ -43,16 +54,13 @@ class Navigation : RComponent<NavigationProps, RState>() {
             }
 
             attrs {
-                onClickFunction = {
-                    props.onTimerClick()
-                }
+                onClickFunction = { props.onTimerClick() }
             }
             if (timerState.isLive) {
                 styledSpan {
                     css {
                         classes = mutableListOf("badge badge-light")
                     }
-                    +"${timerState.count}"
                 }
             }
         }
@@ -65,27 +73,48 @@ class Navigation : RComponent<NavigationProps, RState>() {
                 }
             }
             attrs {
-                onClickFunction = {
-                    props.onPreviousClick()
-                }
+                onClickFunction = { props.onPreviousClick() }
             }
             styledImg {
                 attrs.src = "svg/back.svg"
             }
         }
-        styledButton {
+        styledDiv {
             css {
-                classes = mutableListOf("btn btn-danger mr-2")
-                width = props.mediumBtnWidth
+                classes = mutableListOf("btn-group")
                 attrs {
-                    disabled = !props.questionState.timerState.isLive
+                    role = "group"
                 }
             }
-            +"பதில்"
-            attrs {
-                onClickFunction = {
-                    props.onShowAnswerClick()
+            styledButton {
+                css {
+                    val selectedStyle = if (props.questionState.isAnswered()) "" else "active"
+                    classes = mutableListOf("btn btn-outline-danger $selectedStyle")
+                    width = 80.px
+                    +ComponentStyles.leftRounded
+                    attrs {
+                        disabled = !props.questionState.timerState.isLive || props.questionState.timerState.isPaused
+                    }
                 }
+                attrs {
+                    onClickFunction = { props.onWrongClick() }
+                }
+                +"தவறு"
+            }
+            styledButton {
+                css {
+                    val selectedStyle = if (props.questionState.isAnswered()) "active" else ""
+                    classes = mutableListOf("btn btn-outline-success mr-2  $selectedStyle")
+                    +ComponentStyles.rightRounded
+                    width = 80.px
+                    attrs {
+                        disabled = !props.questionState.timerState.isLive || props.questionState.timerState.isPaused
+                    }
+                }
+                attrs {
+                    onClickFunction = { props.onRightClick() }
+                }
+                +"சரி"
             }
         }
         styledButton {
@@ -97,9 +126,7 @@ class Navigation : RComponent<NavigationProps, RState>() {
                 }
             }
             attrs {
-                onClickFunction = {
-                    props.onNextClick()
-                }
+                onClickFunction = { props.onNextClick() }
             }
             styledImg {
                 attrs.src = "svg/next.svg"

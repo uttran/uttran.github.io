@@ -1,3 +1,5 @@
+package practice
+
 import kotlinx.css.pct
 import react.RBuilder
 import react.RComponent

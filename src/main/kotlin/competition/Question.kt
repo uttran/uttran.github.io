@@ -1,3 +1,5 @@
+package competition
+
 import kotlinx.css.LinearDimension
 import kotlinx.css.fontSize
 import react.RBuilder
@@ -10,6 +12,7 @@ import styled.styledDiv
 
 external interface QuestionProps: RProps {
     var question: String
+    var isAnswered: Boolean
     var fontSize: LinearDimension
 }
 
@@ -17,7 +20,8 @@ class Question : RComponent<QuestionProps, RState>() {
     override fun RBuilder.render() {
         styledDiv {
             css {
-                classes = mutableListOf("card bg-warning m-2 text-center")
+                val style = if (props.isAnswered) "success text-white" else "warning"
+                classes = mutableListOf("card bg-$style m-2 text-center")
             }
             styledDiv {
                 css {

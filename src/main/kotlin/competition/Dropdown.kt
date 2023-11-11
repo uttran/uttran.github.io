@@ -1,3 +1,5 @@
+package competition
+
 import kotlinx.css.LinearDimension
 import kotlinx.css.width
 import kotlinx.html.id
