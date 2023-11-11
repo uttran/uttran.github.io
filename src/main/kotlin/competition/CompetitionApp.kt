@@ -377,6 +377,7 @@ class CompetitionApp : RComponent<CompetitionAppProps, CompetitionAppState>() {
     questionState.porulState = ThirukkuralState(questionState.round2Kurals)
     questionState.firstWordState = FirstWordState(questionState.round2Kurals)
     questionState.lastWordState = LastWordState(questionState.round2Kurals)
+    questionState.scoreState = ScoreState()
   }
 
   private fun onNextClickHandler(questionState: QuestionState) {
