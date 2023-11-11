@@ -125,7 +125,17 @@ data class QuestionState(
             Topic.LastWord -> lastWordState.getCurrent()
         }
     }
+    private fun getIndexQuestion(index: Int): String {
+        return when(selectedTopic) {
+            Topic.Athikaram -> athikaramState.targets[index]
+            Topic.Porul -> porulState.targets[index].porul
+            Topic.Kural -> kuralState.targets[index].kural.toString()
+            Topic.FirstWord -> firstWordState.targets[index]
+            Topic.LastWord -> lastWordState.targets[index]
+        }
+    }
     fun isAnswered(): Boolean = scoreState.group23Score.round2[selectedTopic]?.contains(getCurrentQuestion()) ?: false
+    fun isAnswered(index: Int): Boolean = scoreState.group23Score.round2[selectedTopic]?.contains(getIndexQuestion(index)) ?: false
 }
 
 data class TimerState(

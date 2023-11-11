@@ -213,17 +213,9 @@ class CompetitionApp : RComponent<CompetitionAppProps, CompetitionAppState>() {
                     setState {
                       val timerState = questionState.timerState
                       when {
-                        timerState.isLive && timerState.time <= 0 -> resetTimer(
-                          questionState,
-                          true
-                        )
-
-                        timerState.isLive && timerState.isPaused -> timerState.isPaused =
-                          false
-
-                        timerState.isLive && !timerState.isPaused -> timerState.isPaused =
-                          true
-
+                        timerState.isLive && timerState.time <= 0 -> resetTimer(questionState, true)
+                        timerState.isLive && timerState.isPaused -> timerState.isPaused = false
+                        timerState.isLive && !timerState.isPaused -> timerState.isPaused = true
                         else -> timerState.isLive = true
                       }
                     }
